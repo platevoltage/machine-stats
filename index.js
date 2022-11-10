@@ -32,7 +32,7 @@ let tray2;
 
 // }
 const parsedObject = {PerCore: new Array(20)};
-module.exports = { parsedObject };
+
 async function getSample() {
   const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 1000 -duration 8 -verbose -file /dev/null`);
   const text = stdout.split("--------------------------");

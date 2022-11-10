@@ -1,24 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
+
 import './App.css';
 
+declare global {
+  interface Window {
+      electron? : any
+  }
+}
+
+interface Data {
+  'Num Packages'?: string,
+  'Using Package'?: string,
+  'Num Cores'?: string,
+  'GT Available'?: string,
+  'IA Energy Available'?: string,
+  'DRAM Energy Available'?: string,
+  'Max Temperature'?: string,
+  'IA Base Frequency'?: string,
+  'IA Max Frequency'?: string,
+  TDP?: string,
+  'package temperature'?: string,
+  'IA temperature'?: string,
+  'IA frequency'?: string,
+  'package power'?: string,
+  'IA power'?: string,
+  'DRAM power'?: string,
+  'IA utilization'?: string,
+  PerCore?: [PerCore]
+}
+interface PerCore {
+  request?: string,
+  temperature?: string,
+  frequency?: string,
+  utilization?: string
+}
+
+
 function App() {
+
+  const [data, setData] = useState<Data>({});
+
+  window.electron.getData((event: any, state: Data) => {
+    setData(state);
+    // window.document.getElementById("output")!.innerText = state["package temperature"].split(".")[0] + "°";
+    // console.log(state);
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>{ data["package temperature"] }</p>
+      {data?.PerCore?.map( item => 
+        <p>{item?.frequency}</p>
+      )}
+
     </div>
   );
 }
