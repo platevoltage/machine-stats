@@ -25,7 +25,7 @@ let tray2;
 
 // }
 async function getSample() {
-  const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 1000 -duration 1 -verbose`);
+  const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 1000 -duration 1 -verbose -file /dev/null`);
   const byLine = [];
   const parsedObject = {perCore: new Array};
   for (const line of stdout.split("\n")) {
