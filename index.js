@@ -24,33 +24,46 @@ let tray2;
 //   tray2.setTitle((+stdout.split(" ")[2]).toString() + "°C");
 
 // }
+const parsedObject = {PerCore: new Array(20)};
 async function getSample() {
-  const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 1000 -duration 1 -verbose -file /dev/null`);
-  const byLine = [];
-  const parsedObject = {perCore: new Array};
-  for (const line of stdout.split("\n")) {
-      if (line.startsWith("\t")) byLine.push(line.slice(1));
-      else if (!line.startsWith("-") && !line.startsWith("Done") && line !== "") byLine.push(line);
-  }
+  const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 500 -duration 4 -verbose -file /dev/null`);
+  const text = stdout.split("--------------------------");
+  // console.log(stdout)
+  for (let block of text) {
 
-  for (const line of byLine) {
-    
-    if(line.startsWith("core")) {
-      const array = line.split(/MHz |Celcius /g).map(x => x.replace(/(core \d+ )/, ""))
-      const object = {};
-      for (const item of array) {
-        const keyValuePair = item.split(":");
-        const key = keyValuePair[0]
-        object[keyValuePair[0]] = keyValuePair[1].trim();
+  
+    const lines = [];
+    for (const line of block.split("\n")) {
+        if (line.startsWith("\t")) lines.push(line.slice(1));
+        else if (!line.startsWith("-") && !line.startsWith("Done") && line !== "") lines.push(line);
+    }
+    let count = 0;
+    for (let line of lines) {
+      
+      if(line.startsWith("core")) {
+        const array = line.split(/MHz |Celcius /g).map(x => x.replace(/(core \d+ )/, ""))
+        if (typeof parsedObject.PerCore[count] !== "object") parsedObject.PerCore[count] = {};
+        const object = parsedObject.PerCore[count];
+        count++;
+        for (const item of array) {
+          const keyValuePair = item.split(":");
+          const key = keyValuePair[0]
+          if(!key.startsWith("core")) object[key] = keyValuePair[1]?.trim().split(' ')[0];
+        }
+        // console.log(object);
+        // parsedObject.perCore.push( object );
+      } else {
+        const keyValuePair = line.split(/:|\?/g);
+        if (keyValuePair[1]) parsedObject[keyValuePair[0]] = keyValuePair[1];
       }
-      if (object.frequency) parsedObject.perCore.push( object );
-    } else {
-      const keyValuePair = line.split(/:|\?/g);
-      parsedObject[keyValuePair[0]] = keyValuePair[1];
     }
   }
   console.log(parsedObject);
-  // tray2.setTitle((+stdout.split(" ")[2]).toString() + "°C");
+  if (parsedObject["package temperature"]) tray2.setTitle(
+
+    `${parsedObject["package temperature"].split(".")[0]}°`
+
+  );
 
 }
 app.whenReady().then(() => {
@@ -66,7 +79,7 @@ app.whenReady().then(() => {
     // getTemp();
     getSample();
 
-  }, 5000)
+  }, 1000)
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Item1', type: 'radio' },
     { label: 'Item2', type: 'radio' },
