@@ -10,7 +10,7 @@
     <div id="output"></div>
     <script>
         window.electron.getData((event, state) => {
-            window.document.getElementById("output").innerText = state["package temperature"];
+            window.document.getElementById("output").innerText = state["package temperature"].split(".")[0] + "°";
             console.log(state);
         })
 
