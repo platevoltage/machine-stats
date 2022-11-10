@@ -1,17 +1,22 @@
-const { app, Tray, Menu, nativeImage, BrowserWindow } = require('electron');
+const { app, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain } = require('electron');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const os = require('node:os');
-
-
+const path = require('path');
+let win;
 const createWindow = () => {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 250,
     height: 400,
     // frame: false,
     // titleBarStyle: 'hidden'
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+  }
   });
-
+  
   win.loadFile('index.html');
 };
 
@@ -25,6 +30,7 @@ let tray2;
 
 // }
 const parsedObject = {PerCore: new Array(20)};
+module.exports = { parsedObject };
 async function getSample() {
   const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 1000 -duration 8 -verbose -file /dev/null`);
   const text = stdout.split("--------------------------");
@@ -59,6 +65,7 @@ async function getSample() {
     }
   }
   console.log(parsedObject);
+  
   if (parsedObject["package temperature"]) tray2.setTitle(
 
     `${parsedObject["package temperature"].split(".")[0]}°`
@@ -71,13 +78,15 @@ app.whenReady().then(() => {
   let toggle = true;
   // tray = new Tray(icon);
   tray2 = new Tray(icon);
-  
+  createWindow();
   setInterval(() => {
     // tray = nativeImage.createFromPath('icon2.png');
     // tray.setImage(nativeImage.createFromPath(toggle ? 'icon2.png' : 'icon.png'));
     toggle = !toggle;
     // getTemp();
     getSample();
+    win.webContents.send('sendData', parsedObject);
+    
 
   }, 1000)
   const contextMenu = Menu.buildFromTemplate([
@@ -88,7 +97,10 @@ app.whenReady().then(() => {
   ])
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)
-
+  contextBridge.exposeInMainWorld(
+    'electron', {
+        electron: true
+    });
   // note: your contextMenu, Tooltip and Title code will go here!
 })
 
@@ -98,3 +110,4 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
