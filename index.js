@@ -17,8 +17,8 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js')
   }
   });
-  isDev ?
-    win.loadFile('./popup/build/index.html') :
+  // isDev ?
+    // win.loadFile('./popup/build/index.html') :
     win.loadURL('http://localhost:3000/index.html');
 };
 
