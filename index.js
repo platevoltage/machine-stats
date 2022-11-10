@@ -1,6 +1,7 @@
 const { app, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain } = require('electron');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const isDev = require('electron-is-dev');
 const os = require('node:os');
 const path = require('path');
 let win;
@@ -16,8 +17,9 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js')
   }
   });
-  
-  win.loadFile('index.html');
+  isDev ?
+    win.loadFile('./popup/build/index.html') :
+    win.loadURL('http://localhost:3000/index.html');
 };
 
 let tray;
