@@ -9,7 +9,7 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 250,
     height: 400,
-    show: false,
+    // show: false,
     // frame: false,
     // titleBarStyle: 'hidden'
     webPreferences: {
@@ -21,6 +21,7 @@ const createWindow = () => {
   // isDev ?
     win.loadFile('./popup/build/index.html') 
     // win.loadURL('http://localhost:3000/index.html');
+    win.on('closed', () => win = null)
     
 };
 
@@ -82,19 +83,20 @@ app.whenReady().then(() => {
   let toggle = true;
   tray = new Tray(icon);
   // tray2 = new Tray(icon);
-  createWindow();
+  // createWindow();
   setInterval(() => {
     // tray = nativeImage.createFromPath('icon2.png');
     // tray.setImage(nativeImage.createFromPath(toggle ? 'icon2.png' : 'icon.png'));
     toggle = !toggle;
     // getTemp();
     getSample();
-    win.webContents.send('sendData', parsedObject);
+     win?.webContents.send('sendData', parsedObject);
     
 
   }, 1000)
   const contextMenu = Menu.buildFromTemplate([
-    { label: "open", click: () => win.show()}
+    // { label: "open", click: () => win.show()}
+    { label: "open", click: () => createWindow()}
     // { label: 'Item1', type: 'radio' },
     // { label: 'Item2', type: 'radio' },
     // { label: 'Item3', type: 'radio', checked: true },
