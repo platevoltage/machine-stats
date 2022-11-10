@@ -7,9 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    fsdfsd
+    <div id="output"></div>
     <script>
         window.electron.getData((event, state) => {
+            window.document.getElementById("output").innerText = state["package temperature"];
             console.log(state);
         })
 
