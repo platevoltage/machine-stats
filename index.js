@@ -62,7 +62,7 @@ async function getSample() {
         // parsedObject.perCore.push( object );
       } else {
         const keyValuePair = line.split(/:|\?/g);
-        if (keyValuePair[1]) parsedObject[keyValuePair[0]] = keyValuePair[1];
+        if (keyValuePair[1]) parsedObject[keyValuePair[0]] = keyValuePair[1]?.trim().split(' ')[0];
       }
     }
   }
