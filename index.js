@@ -66,7 +66,7 @@ async function getSample() {
       }
     }
   }
-  console.log(parsedObject);
+  // console.log(JSON.stringify(parsedObject).length);
   
   if (parsedObject["package temperature"]) tray2.setTitle(
 

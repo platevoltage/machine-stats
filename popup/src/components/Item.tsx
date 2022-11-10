@@ -7,9 +7,9 @@ interface Props {
 export default function Items({title, data}:Props) {
   return (
     <div className="item">
-      <div style={{whiteSpace: "nowrap"}}>{title}</div>
+      <div className="title">{title}</div>
       <div style={{width: "100%"}}></div>
-      <div style={{whiteSpace: "nowrap"}}>{data}</div>
+      <div className="data">{data}</div>
     </div>
   )
 }
