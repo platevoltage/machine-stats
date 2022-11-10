@@ -18,8 +18,9 @@ const createWindow = () => {
   }
   });
   // isDev ?
-    // win.loadFile('./popup/build/index.html') :
-    win.loadURL('http://localhost:3000/index.html');
+    win.loadFile('./popup/build/index.html') 
+    // win.loadURL('http://localhost:3000/index.html');
+    
 };
 
 let tray;
