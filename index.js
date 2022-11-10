@@ -9,6 +9,7 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 250,
     height: 400,
+    show: false,
     // frame: false,
     // titleBarStyle: 'hidden'
     webPreferences: {
@@ -69,7 +70,7 @@ async function getSample() {
   }
   // console.log(JSON.stringify(parsedObject).length);
   
-  if (parsedObject["package temperature"]) tray2.setTitle(
+  if (parsedObject["package temperature"]) tray.setTitle(
 
     `${parsedObject["package temperature"].split(".")[0]}°`
 
@@ -79,8 +80,8 @@ async function getSample() {
 app.whenReady().then(() => {
   const icon = nativeImage.createFromPath('icon.png');
   let toggle = true;
-  // tray = new Tray(icon);
-  tray2 = new Tray(icon);
+  tray = new Tray(icon);
+  // tray2 = new Tray(icon);
   createWindow();
   setInterval(() => {
     // tray = nativeImage.createFromPath('icon2.png');
@@ -93,11 +94,14 @@ app.whenReady().then(() => {
 
   }, 1000)
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Item1', type: 'radio' },
-    { label: 'Item2', type: 'radio' },
-    { label: 'Item3', type: 'radio', checked: true },
-    { label: 'Item4', type: 'radio' }
+    { label: "open", click: () => win.show()}
+    // { label: 'Item1', type: 'radio' },
+    // { label: 'Item2', type: 'radio' },
+    // { label: 'Item3', type: 'radio', checked: true },
+    // { label: 'Item4', type: 'radio' }
   ])
+
+
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)
   contextBridge.exposeInMainWorld(
