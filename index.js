@@ -17,12 +17,41 @@ const createWindow = () => {
 
 let tray;
 let tray2;
-///Applications/Intel\ Power\ Gadget/PowerLog -duration 1 -verbose  | grep "IA temperature:"  | head -1
-async function getTemp() {
-  const { stdout, stderr } = await exec('/Applications/"Intel Power Gadget"/PowerLog -duration 1 | grep "package temperature:"  | head -1');
-  // console.log('stdout:', stdout.split(" ")[2]);
-  tray2.setTitle((+stdout.split(" ")[2]).toString() + "°C");
-  // console.log('stderr:', stderr);
+
+// async function getTemp() {
+//   const { stdout, stderr } = await exec('/Applications/"Intel Power Gadget"/PowerLog -duration 1 | grep "package temperature:"  | head -1');
+//   // console.log(stdout);
+//   tray2.setTitle((+stdout.split(" ")[2]).toString() + "°C");
+
+// }
+async function getSample() {
+  const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 1000 -duration 1 -verbose`);
+  const byLine = [];
+  const parsedObject = {perCore: new Array};
+  for (const line of stdout.split("\n")) {
+      if (line.startsWith("\t")) byLine.push(line.slice(1));
+      else if (!line.startsWith("-") && !line.startsWith("Done") && line !== "") byLine.push(line);
+  }
+
+  for (const line of byLine) {
+    
+    if(line.startsWith("core")) {
+      const array = line.split(/MHz |Celcius /g).map(x => x.replace(/(core \d+ )/, ""))
+      const object = {};
+      for (const item of array) {
+        const keyValuePair = item.split(":");
+        const key = keyValuePair[0]
+        object[keyValuePair[0]] = keyValuePair[1].trim();
+      }
+      if (object.frequency) parsedObject.perCore.push( object );
+    } else {
+      const keyValuePair = line.split(/:|\?/g);
+      parsedObject[keyValuePair[0]] = keyValuePair[1];
+    }
+  }
+  console.log(parsedObject);
+  // tray2.setTitle((+stdout.split(" ")[2]).toString() + "°C");
+
 }
 app.whenReady().then(() => {
   const icon = nativeImage.createFromPath('icon.png');
@@ -34,9 +63,10 @@ app.whenReady().then(() => {
     // tray = nativeImage.createFromPath('icon2.png');
     // tray.setImage(nativeImage.createFromPath(toggle ? 'icon2.png' : 'icon.png'));
     toggle = !toggle;
-    getTemp();
+    // getTemp();
+    getSample();
 
-  }, 1000)
+  }, 5000)
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Item1', type: 'radio' },
     { label: 'Item2', type: 'radio' },
@@ -49,15 +79,6 @@ app.whenReady().then(() => {
   // note: your contextMenu, Tooltip and Title code will go here!
 })
 
-// app.whenReady().then(() => {
-//   createWindow();
-
-//   app.on('activate', () => {
-//     if (BrowserWindow.getAllWindows().length === 0) {
-//       createWindow();
-//     }
-//   });
-// });
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
