@@ -28,7 +28,7 @@ interface Data {
   'IA power'?: string,
   'DRAM power'?: string,
   'IA utilization'?: string,
-  PerCore?: [PerCore]
+  PerCore?: PerCore[]
 }
 interface PerCore {
   request?: string,
@@ -58,41 +58,41 @@ const alias = {
 }
 
 var canvas = document.getElementById('canvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-canvas.width = 30;
-canvas.height = 30;
-ctx.imageSmoothingQuality = 'high';
-// ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 30, 30);
-ctx.fillStyle = 'red';
-ctx.fillRect(0, 0, canvas.width, canvas.height)
-const graphData = canvas.toDataURL('image/png', 1);
+// const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+// ctx.imageSmoothingQuality = 'high';
+canvas.width = 100;
+canvas.height = 20;
+
 
 
 function App() {
   const [data, setData] = useState<Data>({});
 
-
   useEffect(() => {
     window.api?.getData((event: any, state: Data) => {
       setData(state);
-    });
-    setInterval(() => {
-
-      // window.api?.sendWindowHeight(document.body.offsetHeight);
-      window.api?.sendGraph(graphData)
-    }, 1000)
-    
+    });    
   },[])
   useEffect(() => {
-    setInterval(() => {
+      // console.log(data);
+      window.api?.sendGraph( drawGraph(data) );
+      window.api?.sendWindowHeight(document.body.offsetHeight);
+  },[data])
 
-
-      // window.api?.sendGraph(canvas)
-
-      // console.log([canvas]);
-    }, 1000)
+  function drawGraph(data: Data) {
+    // console.log(data);
+    canvas.width = data.PerCore?.length! * 5 || 50;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (let i in data.PerCore) {
+      console.log(i);
+      ctx.fillStyle = 'red';
+      ctx.fillRect(i as unknown as number*5, canvas.height, 4, -(+data.PerCore[i as unknown as number].utilization! ?? 0)/2)
+    }
     
-  },[])
+    return canvas.toDataURL('image/png', 1);
+  }
+
 
   return (
     <div>
@@ -113,6 +113,11 @@ function App() {
       <br />
       {data?.PerCore?.map( (item, index) => 
         <Item title={`core ${index} temperature`} data={item?.temperature} key={index}/>
+        // <p>{item?.frequency}</p>
+      )}  
+      <br />
+      {data?.PerCore?.map( (item, index) => 
+        <Item title={`core ${index} utilization`} data={item?.utilization} key={index}/>
         // <p>{item?.frequency}</p>
       )}  
 

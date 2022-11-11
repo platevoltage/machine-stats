@@ -4,6 +4,7 @@ const path = require('path');
 const getSample = require('./powerGadget');
 
 let win;
+let tray;
 const createWindow = ({x}) => {
   win = new BrowserWindow({
     width: 250,
@@ -30,38 +31,16 @@ const createWindow = ({x}) => {
     
 };
 
-let tray;
-
-
-
-let graph;
-
 app.whenReady().then(() => {
   const icon2 = nativeImage.createFromPath('icon.png');
   const icon = nativeImage.createFromNamedImage("NSFolder").resize({width: 10})
   let count = 0;
   ipcMain.on('getGraph', (event, graphData) => {
 
-    console.log(count++);
-    // const graphData = canvas.toDataURL('image/png', 1);
     const image = nativeImage.createFromDataURL(graphData);
-    console.log(icon)
-    
+    // console.log(icon)
     tray.setImage( image );
   });
-  // var canvas = document.getElementById('canvas')
-  // const ctx = canvas.getContext('2d')
-  // canvas.width = 30;
-  // canvas.height = 30;
-  // ctx.imageSmoothingQuality = 'high';
-  // // ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 30, 30);
-  // ctx.fillStyle = 'red';
-  // ctx.fillRect(0, 0, canvas.width, canvas.height)
-  // const graphData = canvas.toDataURL('image/png', 1);
-  // const image = nativeImage.createFromDataURL(graphData).toPNG();
-  // tray.setImage( image );
-
-
   
   let toggle = true;
   tray = new Tray(icon);
