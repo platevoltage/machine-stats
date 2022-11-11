@@ -13,7 +13,7 @@ const createGraphTray = (data) => {
         preload: path.join(__dirname, 'preload.js')
       }
     })
-    graphCanvas.loadFile('helpers/utilizationGraphCanvas/index.html');
+    graphCanvas.loadFile('components/tray/canvas/index.html');
     const tray = new Tray(nativeImage.createEmpty());
     ipcMain.on('getGraph', (event, graphData) => {
       const image = nativeImage.createFromDataURL(graphData);
