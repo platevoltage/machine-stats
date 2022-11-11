@@ -1,17 +1,22 @@
-const { app, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain } = require('electron');
+const { app, screen, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain } = require('electron');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const isDev = require('electron-is-dev');
 const os = require('node:os');
 const path = require('path');
 let win;
-const createWindow = () => {
+const createWindow = ({x}) => {
   win = new BrowserWindow({
     width: 250,
     height: 400,
+    // backgroundColor: '#aa111100',
+    // transparent: true,
+    vibrancy: 'dark',
     // show: false,
-    // frame: false,
-    // titleBarStyle: 'hidden'
+    frame: false,
+    x: x - 125,
+    y: 0,
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -19,8 +24,8 @@ const createWindow = () => {
   }
   });
   // isDev ?
-    win.loadFile('./popup/build/index.html') 
-    // win.loadURL('http://localhost:3000/index.html');
+    // win.loadFile('./popup/build/index.html') 
+    win.loadURL('http://localhost:3000/index.html');
     win.on('closed', () => win = null)
     
 };
@@ -90,13 +95,11 @@ app.whenReady().then(() => {
     toggle = !toggle;
     // getTemp();
     getSample();
-     win?.webContents.send('sendData', parsedObject);
-    
-
+    win?.webContents.send('sendData', parsedObject);
   }, 1000)
   const contextMenu = Menu.buildFromTemplate([
     // { label: "open", click: () => win.show()}
-    { label: "open", click: () => createWindow()}
+    { label: "open", click: () => createWindow(screen.getCursorScreenPoint())}
     // { label: 'Item1', type: 'radio' },
     // { label: 'Item2', type: 'radio' },
     // { label: 'Item3', type: 'radio', checked: true },
