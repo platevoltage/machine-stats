@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Item from './components/Item';
 
 import './App.css';
@@ -64,9 +64,13 @@ function App() {
   window.api?.getData((event: any, state: Data) => {
     setData(state);
   })
-  window.api?.sendWindowHeight(document.body.offsetHeight)
-  console.log(window);
-
+  useEffect(() => {
+    setInterval(() => {
+      window.api?.sendWindowHeight(document.body.offsetHeight)
+      console.log(window);
+    }, 100)
+    
+  },[])
 
   return (
     <div>
