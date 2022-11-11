@@ -32,14 +32,9 @@ const createWindow = ({x}) => {
 };
 
 let tray;
-let tray2;
 
-// async function getTemp() {
-//   const { stdout, stderr } = await exec('/Applications/"Intel Power Gadget"/PowerLog -duration 1 | grep "package temperature:"  | head -1');
-//   // console.log(stdout);
-//   tray2.setTitle((+stdout.split(" ")[2]).toString() + "°C");
 
-// }
+
 const parsedObject = {PerCore: new Array(20)};
 
 async function getSample() {
@@ -67,15 +62,14 @@ async function getSample() {
           const key = keyValuePair[0]
           if(!key.startsWith("core")) object[key] = keyValuePair[1]?.trim().split(' ')[0];
         }
-        // console.log(object);
-        // parsedObject.perCore.push( object );
+ 
       } else {
         const keyValuePair = line.split(/:|\?/g);
         if (keyValuePair[1]) parsedObject[keyValuePair[0]] = keyValuePair[1]?.trim().split(' ')[0];
       }
     }
   }
-  // console.log(JSON.stringify(parsedObject).length);
+
   
   if (parsedObject["package temperature"]) tray.setTitle(
 
@@ -90,23 +84,16 @@ app.whenReady().then(() => {
   let toggle = true;
   tray = new Tray(icon);
   ipcMain.on('getWindowHeight', (e, height) => win.setSize(250, height+30));
-  // tray2 = new Tray(icon);
-  // createWindow();
+
   setInterval(() => {
-    // tray = nativeImage.createFromPath('icon2.png');
-    // tray.setImage(nativeImage.createFromPath(toggle ? 'icon2.png' : 'icon.png'));
-    toggle = !toggle;
-    // getTemp();
     getSample();
     win?.webContents.send('sendData', parsedObject);
   }, 1000)
+
   const contextMenu = Menu.buildFromTemplate([
-    // { label: "open", click: () => win.show()}
+
     { label: "open", click: () => createWindow(screen.getCursorScreenPoint())}
-    // { label: 'Item1', type: 'radio' },
-    // { label: 'Item2', type: 'radio' },
-    // { label: 'Item3', type: 'radio', checked: true },
-    // { label: 'Item4', type: 'radio' }
+
   ])
 
 
