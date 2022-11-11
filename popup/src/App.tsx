@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Item from './components/Item';
-import { nativeImage } from 'electron';
+
 
 import './App.css';
 
