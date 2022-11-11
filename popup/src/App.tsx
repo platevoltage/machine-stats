@@ -78,8 +78,8 @@ function App() {
     });
     setInterval(() => {
 
-      window.api?.sendWindowHeight(document.body.offsetHeight);
-      // window.api?.sendGraph(JSON.stringify(graphData))
+      // window.api?.sendWindowHeight(document.body.offsetHeight);
+      window.api?.sendGraph(graphData)
     }, 1000)
     
   },[])

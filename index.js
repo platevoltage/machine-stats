@@ -44,10 +44,22 @@ app.whenReady().then(() => {
 
     console.log(count++);
     // const graphData = canvas.toDataURL('image/png', 1);
-    const image = nativeImage.createFromDataURL(graphData).toPNG();
-    tray.setImage( icon2 );
+    const image = nativeImage.createFromDataURL(graphData);
+    console.log(icon)
+    
+    tray.setImage( image );
   });
-
+  // var canvas = document.getElementById('canvas')
+  // const ctx = canvas.getContext('2d')
+  // canvas.width = 30;
+  // canvas.height = 30;
+  // ctx.imageSmoothingQuality = 'high';
+  // // ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 30, 30);
+  // ctx.fillStyle = 'red';
+  // ctx.fillRect(0, 0, canvas.width, canvas.height)
+  // const graphData = canvas.toDataURL('image/png', 1);
+  // const image = nativeImage.createFromDataURL(graphData).toPNG();
+  // tray.setImage( image );
 
 
   
