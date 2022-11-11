@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build:react && electron .",
     "start:dev": "electron .",
-    "build:react": "cd popup && npm run build",
+    "build:react": "cd components/mainPopup/popup && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
