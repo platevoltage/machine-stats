@@ -1,10 +1,8 @@
 const { app, screen, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain } = require('electron');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
 const isDev = require('electron-is-dev');
-const os = require('node:os');
 const path = require('path');
 const getSample = require('./powerGadget');
+
 let win;
 const createWindow = ({x}) => {
   win = new BrowserWindow({
@@ -36,10 +34,23 @@ let tray;
 
 
 
-
+let graph;
 
 app.whenReady().then(() => {
-  const icon = nativeImage.createFromPath('icon.png');
+  const icon2 = nativeImage.createFromPath('icon.png');
+  const icon = nativeImage.createFromNamedImage("NSFolder").resize({width: 10})
+  let count = 0;
+  ipcMain.on('getGraph', (event, graphData) => {
+
+    console.log(count++);
+    // const graphData = canvas.toDataURL('image/png', 1);
+    const image = nativeImage.createFromDataURL(graphData).toPNG();
+    tray.setImage( icon2 );
+  });
+
+
+
+  
   let toggle = true;
   tray = new Tray(icon);
   ipcMain.on('getWindowHeight', (e, height) => win.setSize(250, height+30));
@@ -47,10 +58,9 @@ app.whenReady().then(() => {
   setInterval(async () => {
     const data = await getSample();
     if (data["package temperature"]) tray.setTitle(
-  
       `${data["package temperature"].split(".")[0]}°`
-  
     );
+
     win?.webContents.send('sendData', data);
   }, 1000)
 

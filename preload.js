@@ -16,7 +16,8 @@ window.addEventListener('DOMContentLoaded', () => {
   contextBridge.exposeInMainWorld(
     'api', {
         getData: data => ipcRenderer.on('sendData',data),
-        sendWindowHeight: windowHeight => ipcRenderer.send('getWindowHeight', windowHeight)
+        sendWindowHeight: windowHeight => ipcRenderer.send('getWindowHeight', windowHeight),
+        sendGraph: canvas => ipcRenderer.send('getGraph', JSON.parse(canvas))
         
     });
 

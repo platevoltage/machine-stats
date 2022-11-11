@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Item from './components/Item';
+import { nativeImage } from 'electron';
 
 import './App.css';
 
@@ -56,24 +57,46 @@ const alias = {
   'IA utilization': "Utilization",
 }
 
+var canvas = document.getElementById('canvas') as HTMLCanvasElement;
+const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+canvas.width = 30;
+canvas.height = 30;
+ctx.imageSmoothingQuality = 'high';
+// ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 30, 30);
+ctx.fillStyle = 'red';
+ctx.fillRect(0, 0, canvas.width, canvas.height)
+const graphData = canvas.toDataURL('image/png', 1);
+
 
 function App() {
-
   const [data, setData] = useState<Data>({});
 
-  window.api?.getData((event: any, state: Data) => {
-    setData(state);
-  })
+
+  useEffect(() => {
+    window.api?.getData((event: any, state: Data) => {
+      setData(state);
+    });
+    setInterval(() => {
+
+      window.api?.sendWindowHeight(document.body.offsetHeight);
+      // window.api?.sendGraph(JSON.stringify(graphData))
+    }, 1000)
+    
+  },[])
   useEffect(() => {
     setInterval(() => {
-      window.api?.sendWindowHeight(document.body.offsetHeight)
-      console.log(window);
-    }, 100)
+
+
+      // window.api?.sendGraph(canvas)
+
+      // console.log([canvas]);
+    }, 1000)
     
   },[])
 
   return (
     <div>
+      
       {/* <Item title={alias["package temperature"]} data={data["package temperature"]}/> */}
       {Object.keys(data).map((key, index) => {
         return (
