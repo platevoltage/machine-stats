@@ -3,12 +3,10 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const getSample = require('./powerGadget');
 
-// let win;
-// let tray;
-// let graphCanvas
+
 let accentColor = `#${systemPreferences.getAccentColor()}`;
 console.log(accentColor);
-let data;
+let data = {};
 const createGraphCanvas = () => {
   const graphCanvas = new BrowserWindow({
     show: false,
@@ -31,15 +29,15 @@ const createGraphCanvas = () => {
   ]);
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu);
-  setInterval(async () => {
-    data = await getSample();
-    if (data["package temperature"]) tray.setTitle(
-      `${data["package temperature"].split(".")[0]}°`
-    );
+  setInterval(() => {
+    // data = await getSample();
+    if ("package temperature" in data) {
+      tray.setTitle(`${data["package temperature"].split(".")[0]}°`);
+      graphCanvas?.webContents.send('sendData', { data, color: accentColor});
+    }
     // win?.webContents.send('sendData', data);
-    graphCanvas?.webContents.send('sendData', { data, color: accentColor});
   }, 1000)
-}
+};
 
 const createWindow = ({x}) => {
   const win = new BrowserWindow({
@@ -56,7 +54,7 @@ const createWindow = ({x}) => {
       preload: path.join(__dirname, 'preload.js')
     }
   });
-  // isDev ?
+
   const interval = setInterval(async () => {
     win.webContents.send('sendData', data);
   }, 1000);
@@ -75,11 +73,12 @@ const createWindow = ({x}) => {
 };
 
 app.whenReady().then(() => {
+
+  setInterval( async () => {
+    data = await getSample();
+  },1000)
   createGraphCanvas();
-
   
-
-
   // note: your contextMenu, Tooltip and Title code will go here!
 })
 
