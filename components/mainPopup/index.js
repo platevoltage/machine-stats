@@ -20,7 +20,6 @@ const createMainPopup = (data, {x}) => {
   
     const interval = setInterval(async () => {
       win.webContents.send('sendData', data);
-      console.log(data);
     }, 1000);
     win.loadURL('http://localhost:3000/index.html');
     ipcMain.on('getWindowHeight', (e, height) => {
