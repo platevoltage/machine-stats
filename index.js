@@ -5,14 +5,26 @@ const getSample = require('./powerGadget');
 
 let win;
 let tray;
+let graphCanvas
+
+const createGraphCanvas = () => {
+  graphCanvas = new BrowserWindow({
+    show: false,
+    useContentSize: true,
+    titleBarStyle: 'hidden',
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+  graphCanvas.loadFile('index.html');
+}
+
 const createWindow = ({x}) => {
   win = new BrowserWindow({
     width: 250,
-    // height: 400,
-    // backgroundColor: '#aa111100',
-    // transparent: true,
     vibrancy: 'dark',
-    // show: false,
     useContentSize: true,
     frame: false,
     x: x - 125,
@@ -32,6 +44,7 @@ const createWindow = ({x}) => {
 };
 
 app.whenReady().then(() => {
+  createGraphCanvas();
   const icon2 = nativeImage.createFromPath('icon.png');
   const icon = nativeImage.createFromNamedImage("NSFolder").resize({width: 10})
   let count = 0;
@@ -53,6 +66,7 @@ app.whenReady().then(() => {
     );
 
     win?.webContents.send('sendData', data);
+    graphCanvas?.webContents.send('sendData', data);
   }, 1000)
 
   const contextMenu = Menu.buildFromTemplate([
@@ -64,10 +78,7 @@ app.whenReady().then(() => {
 
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)
-  contextBridge.exposeInMainWorld(
-    'electron', {
-        electron: true
-    });
+
   // note: your contextMenu, Tooltip and Title code will go here!
 })
 
