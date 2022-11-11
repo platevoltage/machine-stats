@@ -57,11 +57,6 @@ const alias = {
   'IA utilization': "Utilization",
 }
 
-var canvas = document.getElementById('canvas') as HTMLCanvasElement;
-// const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-// ctx.imageSmoothingQuality = 'high';
-canvas.width = 100;
-canvas.height = 20;
 
 
 
@@ -69,29 +64,16 @@ function App() {
   const [data, setData] = useState<Data>({});
 
   useEffect(() => {
-    window.api?.getData((event: any, state: Data) => {
-      setData(state);
+    window.api?.getData((event: any, data: Data) => {
+      setData(data);
     });    
   },[])
   useEffect(() => {
       // console.log(data);
-      window.api?.sendGraph( drawGraph(data) );
+
       window.api?.sendWindowHeight(document.body.offsetHeight);
   },[data])
 
-  function drawGraph(data: Data) {
-    // console.log(data);
-    canvas.width = data.PerCore?.length! * 5 || 50;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    for (let i in data.PerCore) {
-      console.log(i);
-      ctx.fillStyle = 'red';
-      ctx.fillRect(i as unknown as number*5, canvas.height, 4, -(+data.PerCore[i as unknown as number].utilization! ?? 0)/2)
-    }
-    
-    return canvas.toDataURL('image/png', 1);
-  }
 
 
   return (
