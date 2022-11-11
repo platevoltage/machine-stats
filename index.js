@@ -8,11 +8,12 @@ let win;
 const createWindow = ({x}) => {
   win = new BrowserWindow({
     width: 250,
-    height: 400,
+    // height: 400,
     // backgroundColor: '#aa111100',
     // transparent: true,
     vibrancy: 'dark',
     // show: false,
+    useContentSize: true,
     frame: false,
     x: x - 125,
     y: 0,
@@ -83,10 +84,12 @@ async function getSample() {
   );
 
 }
+
 app.whenReady().then(() => {
   const icon = nativeImage.createFromPath('icon.png');
   let toggle = true;
   tray = new Tray(icon);
+  ipcMain.on('getWindowHeight', (e, height) => win.setSize(250, height+30));
   // tray2 = new Tray(icon);
   // createWindow();
   setInterval(() => {

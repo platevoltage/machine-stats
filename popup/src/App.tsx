@@ -5,7 +5,7 @@ import './App.css';
 
 declare global {
   interface Window {
-      electron? : any
+      api? : any
   }
 }
 
@@ -61,11 +61,12 @@ function App() {
 
   const [data, setData] = useState<Data>({});
 
-  window.electron?.getData((event: any, state: Data) => {
+  window.api?.getData((event: any, state: Data) => {
     setData(state);
-    // window.document.getElementById("output")!.innerText = state["package temperature"].split(".")[0] + "°";
-    // console.log(state);
   })
+  window.api?.sendWindowHeight(document.body.offsetHeight)
+  console.log(window);
+
 
   return (
     <div>

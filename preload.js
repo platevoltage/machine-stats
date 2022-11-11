@@ -14,8 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
   })
 
   contextBridge.exposeInMainWorld(
-    'electron', {
-        getData: data => ipcRenderer.on('sendData',data)
+    'api', {
+        getData: data => ipcRenderer.on('sendData',data),
+        sendWindowHeight: windowHeight => ipcRenderer.send('getWindowHeight', windowHeight)
+        
     });
 
 
