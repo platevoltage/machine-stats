@@ -4,7 +4,7 @@ const exec = util.promisify(require('child_process').exec);
 
 const parsedObject = {PerCore: new Array(20)};
 async function getSample() {
-    const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 100 -duration 1 -verbose -file /dev/null`);
+    const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 300 -duration 1 -verbose -file /dev/null`);
     const text = stdout.split("--------------------------");
     // console.log(stdout)
     for (let block of text) {
