@@ -1,4 +1,4 @@
-const { app, screen, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain } = require('electron');
+const { app, screen, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain, systemPreferences } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const getSample = require('./powerGadget');
@@ -6,6 +6,8 @@ const getSample = require('./powerGadget');
 let win;
 let tray;
 let graphCanvas
+let accentColor = `#${systemPreferences.getAccentColor()}`;
+console.log(accentColor);
 
 const createGraphCanvas = () => {
   graphCanvas = new BrowserWindow({
@@ -18,7 +20,7 @@ const createGraphCanvas = () => {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-  graphCanvas.loadFile('index.html');
+  graphCanvas.loadFile('canvas/index.html');
 }
 
 const createWindow = ({x}) => {
@@ -66,7 +68,7 @@ app.whenReady().then(() => {
     );
 
     win?.webContents.send('sendData', data);
-    graphCanvas?.webContents.send('sendData', data);
+    graphCanvas?.webContents.send('sendData', { data, color: accentColor});
   }, 1000)
 
   const contextMenu = Menu.buildFromTemplate([
