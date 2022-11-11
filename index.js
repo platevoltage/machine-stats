@@ -1,4 +1,4 @@
-const { app, screen, Tray, Menu, nativeImage, BrowserWindow, contextBridge, ipcRenderer, ipcMain, systemPreferences } = require('electron');
+const { app } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const getSample = require('./helpers/powerGadget');
