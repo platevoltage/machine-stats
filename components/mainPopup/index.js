@@ -22,9 +22,9 @@ const createMainPopup = (data, {x}) => {
     const interval = setInterval(() => {
       win.webContents.send('sendData', { data, color: accentColor });
     }, 1000);
-    win.loadURL('http://localhost:3000/index.html');
+    // win.loadURL('http://localhost:3000/index.html');
 
-    // win.loadFile('./popup/build/index.html') 
+    win.loadFile(path.join(__dirname, 'popup/build/index.html')) 
 
     win.once('ready-to-show', () => {
       win.webContents.send('sendData', { data, color: accentColor });
