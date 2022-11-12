@@ -24,3 +24,7 @@ p {
   border: none;
   background: none;
 }
+
+.carat:focus {
+  border: none;
+}
