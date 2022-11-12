@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import Item from './components/Item';
 
 
+
 import './App.css';
+import { PerCore, IPerCore } from './components/PerCore';
 
 declare global {
   interface Window {
@@ -28,13 +30,7 @@ interface Data {
   'IA power'?: string,
   'DRAM power'?: string,
   'IA utilization'?: string,
-  PerCore?: PerCore[]
-}
-interface PerCore {
-  request?: string,
-  temperature?: string,
-  frequency?: string,
-  utilization?: string
+  PerCore?: IPerCore[]
 }
 
 const alias = {
@@ -110,25 +106,11 @@ function App() {
           )
         })
       }
-      <br />
-      { data?.PerCore?.map( (item, index) => {
-          return <Item title={`core ${index} freq`} data={item?.frequency} suffix={" mhz"} key={index}/>
-        }
- 
-      )}
-
-      <br />
-      { data?.PerCore?.map( (item, index) => {
-        return <Item title={`core ${index} temp`} data={item?.temperature} suffix={"°C"} key={index}/>
-        }
-  
-      )}  
-      <br />
-      { data?.PerCore?.map( (item, index) => {
-        return <Item title={`core ${index} utilization`} data={item?.utilization} isInt={true} suffix={"%"} key={index}/>
-        }
-     
-      )}  
+      
+      <PerCore data={data.PerCore} property={"frequency"} title={`freq`} suffix={" mhz"} />
+      <PerCore data={data.PerCore} property={"temperature"} title={`freq`} suffix={"°C"} />
+      <PerCore data={data.PerCore} property={"utilization"} title={`freq`} suffix={"%"} />
+      
 
     </div>
   );
