@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import Item from './components/Item';
 
-
-
 import './App.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 import { PerCore, IPerCore } from './components/PerCore';
 
 declare global {
@@ -109,14 +109,23 @@ function App() {
           )
         })
       }
-      <p><button onClick={() => setShowFreq(!showFreq)}>Min</button>
-      {showFreq && <PerCore data={data.PerCore} property={"frequency"} title={`freq`} suffix={" mhz"} />}
+      <p>
+        <button className="caret" onClick={() => setShowFreq(!showFreq)}>
+          <i className={`bi bi-caret-${showFreq ? "down" : "right"}-fill`}></i>
+        </button>
+        {showFreq && <PerCore data={data.PerCore} property={"frequency"} title={`freq`} suffix={" mhz"} />}
       </p>
-      <p><button onClick={() => setShowTemp(!showTemp)}>Min</button>
-      {showTemp && <PerCore data={data.PerCore} property={"temperature"} title={`temp`} suffix={"°C"} />}
+      <p>
+        <button className="caret" onClick={() => setShowTemp(!showTemp)}>
+          <i className={`bi bi-caret-${showTemp ? "down" : "right"}-fill`}></i>
+        </button>
+        {showTemp && <PerCore data={data.PerCore} property={"temperature"} title={`temp`} suffix={"°C"} />}
       </p>
-      <p><button onClick={() => setShowUtilization(!showUtilization)}>Min</button>
-      {showUtilization && <PerCore data={data.PerCore} property={"utilization"} title={`utilization`} suffix={"%"} />}
+      <p>
+        <button className="caret" onClick={() => setShowUtilization(!showUtilization)}>
+          <i className={`bi bi-caret-${showUtilization ? "down" : "right"}-fill`}></i>
+        </button>
+        {showUtilization && <PerCore data={data.PerCore} property={"utilization"} title={`utilization`} suffix={"%"} />}
       </p>
       
 

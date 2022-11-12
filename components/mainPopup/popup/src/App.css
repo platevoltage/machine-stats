@@ -19,3 +19,9 @@ p {
 .title {
   color: #aaaaaa;
 }
+
+.caret {
+  border: none;
+  background: none;
+  color: #ffffff;
+}
