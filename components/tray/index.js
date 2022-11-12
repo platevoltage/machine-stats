@@ -39,7 +39,7 @@ const createGraphTray = (data) => {
     // tray.setContextMenu(contextMenu);
     setInterval(() => {
       if ("package temperature" in data) {
-        tray.setTitle(`${data["package temperature"].split(".")[0]}°`);
+        tray.setTitle(`${data["package temperature"]}°`);
         graphCanvas?.webContents.send('sendData', { data, color: accentColor});
       }
     }, 1000)

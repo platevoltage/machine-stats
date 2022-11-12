@@ -26,12 +26,12 @@ async function getSample() {
           for (const item of array) {
             const keyValuePair = item.split(":");
             const key = keyValuePair[0]
-            if(!key.startsWith("core")) object[key] = keyValuePair[1]?.trim().split(' ')[0];
+            if(!key.startsWith("core")) object[key] = +(keyValuePair[1]?.trim().split(' ')[0]);
           }
    
         } else {
           const keyValuePair = line.split(/:|\?/g);
-          if (keyValuePair[1]) parsedObject[keyValuePair[0]] = keyValuePair[1]?.trim().split(' ')[0];
+          if (keyValuePair[1]) parsedObject[keyValuePair[0]] = +(keyValuePair[1]?.trim().split(' ')[0]);
         }
       }
     }
