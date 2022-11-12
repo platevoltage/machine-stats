@@ -17,6 +17,7 @@ const createMainPopup = (data, {x}) => {
         preload: path.join(__dirname, 'preload.js')
       }
     });
+    
   
     const interval = setInterval(async () => {
       win.webContents.send('sendData', data);
@@ -26,12 +27,15 @@ const createMainPopup = (data, {x}) => {
       win.setSize(250, height+30);
     });
     // win.loadFile('./popup/build/index.html') 
+
     win.on('closed', () => {
       clearInterval(interval);
       ipcMain.removeAllListeners('sendData');
       ipcMain.removeAllListeners('getWindowHeight');
       win.destroy()
     });
+
+    return win
       
   };
 
