@@ -18,12 +18,12 @@ const createGraphTray = (data) => {
 
     let mainPopup;
     tray.addListener('click', (e) => {
-      if (mainPopup === undefined) mainPopup = createMainPopup(data, screen.getCursorScreenPoint());
+      if (mainPopup?.isDestroyed() || mainPopup === undefined) {
+        mainPopup = createMainPopup(data, screen.getCursorScreenPoint());
+      }
       else {
         mainPopup.close();
-        mainPopup = undefined;
       }
-
     })
     ipcMain.on('getGraph', (_event, graphData) => {
       const image = nativeImage.createFromDataURL(graphData);
