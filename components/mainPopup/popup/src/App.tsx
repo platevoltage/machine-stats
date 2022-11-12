@@ -77,6 +77,9 @@ const suffix = {
 
 function App() {
   const [data, setData] = useState<Data>({});
+  const [showFreq, setShowFreq] = useState(true);
+  const [showTemp, setShowTemp] = useState(true);
+  const [showUtilization, setShowUtilization] = useState(true);
 
   useEffect(() => {
     window.api?.getData((event: any, data: Data) => {
@@ -106,10 +109,15 @@ function App() {
           )
         })
       }
-      
-      <PerCore data={data.PerCore} property={"frequency"} title={`freq`} suffix={" mhz"} />
-      <PerCore data={data.PerCore} property={"temperature"} title={`freq`} suffix={"°C"} />
-      <PerCore data={data.PerCore} property={"utilization"} title={`freq`} suffix={"%"} />
+      <p><button onClick={() => setShowFreq(!showFreq)}>Min</button>
+      {showFreq && <PerCore data={data.PerCore} property={"frequency"} title={`freq`} suffix={" mhz"} />}
+      </p>
+      <p><button onClick={() => setShowTemp(!showTemp)}>Min</button>
+      {showTemp && <PerCore data={data.PerCore} property={"temperature"} title={`temp`} suffix={"°C"} />}
+      </p>
+      <p><button onClick={() => setShowUtilization(!showUtilization)}>Min</button>
+      {showUtilization && <PerCore data={data.PerCore} property={"utilization"} title={`utilization`} suffix={"%"} />}
+      </p>
       
 
     </div>

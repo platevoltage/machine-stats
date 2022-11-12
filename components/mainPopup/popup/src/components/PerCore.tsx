@@ -17,13 +17,13 @@ export interface IPerCore {
 
 export function PerCore({ property, data, title, suffix }:Props) {
   return (
-    <>
-        <br />
+    <div>
+        
         { data?.map( (item, index) => {
           return <Item title={`core ${index} ${title}`} data={item[property]} suffix={suffix} key={index}/>
         }
  
       )}
-    </>
+    </div>
   )
 }
