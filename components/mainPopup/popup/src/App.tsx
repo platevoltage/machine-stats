@@ -97,27 +97,37 @@ function App() {
     <div>
       
       {/* <Item title={alias["package temperature"]} data={data["package temperature"]}/> */}
-      {Object.keys(data).map((key, index) => {
-        return (
-          key in alias && <Item title={alias[key as keyof typeof alias]} data={data[key as keyof typeof data]} isInt={true} suffix={suffix[key as keyof typeof suffix]} key={index}/>
-        )
-      })
+      { Object.keys(data).map((key, index) => {
+          return (
+            key in alias && 
+              <Item 
+                title={alias[key as keyof typeof alias]} 
+                data={data[key as keyof typeof data]} 
+                isInt={true} 
+                suffix={suffix[key as keyof typeof suffix]} 
+                key={index}
+              />
+          )
+        })
       }
       <br />
-      {data?.PerCore?.map( (item, index) => 
-        <Item title={`core ${index} frequency`} data={item?.frequency} suffix={" mhz"} key={index}/>
-        // <p>{item?.frequency}</p>
+      { data?.PerCore?.map( (item, index) => {
+          return <Item title={`core ${index} freq`} data={item?.frequency} suffix={" mhz"} key={index}/>
+        }
+ 
       )}
 
       <br />
-      {data?.PerCore?.map( (item, index) => 
-        <Item title={`core ${index} temperature`} data={item?.temperature} suffix={"°C"} key={index}/>
-        // <p>{item?.frequency}</p>
+      { data?.PerCore?.map( (item, index) => {
+        return <Item title={`core ${index} temp`} data={item?.temperature} suffix={"°C"} key={index}/>
+        }
+  
       )}  
       <br />
-      {data?.PerCore?.map( (item, index) => 
-        <Item title={`core ${index} utilization`} data={item?.utilization} isInt={true} suffix={"%"} key={index}/>
-        // <p>{item?.frequency}</p>
+      { data?.PerCore?.map( (item, index) => {
+        return <Item title={`core ${index} utilization`} data={item?.utilization} isInt={true} suffix={"%"} key={index}/>
+        }
+     
       )}  
 
     </div>
