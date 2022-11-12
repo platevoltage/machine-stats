@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build:react && electron .",
     "start:dev": "electron .",
-    "build:react": "cd components/mainPopup/popup && npm run build",
+    "build:react": "cd components/mainPopup/popup && npm i && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,8 +14,5 @@
   "devDependencies": {
     "electron": "^21.2.2",
     "electron-is-dev": "^2.0.0"
-  },
-  "dependencies": {
-    "get-canvas-context": "^1.0.2"
   }
 }
