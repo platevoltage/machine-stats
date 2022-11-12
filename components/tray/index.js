@@ -15,7 +15,17 @@ const createGraphTray = (data) => {
     })
     graphCanvas.loadFile('components/tray/canvas/index.html');
     const tray = new Tray(nativeImage.createEmpty());
-    ipcMain.on('getGraph', (event, graphData) => {
+
+    let mainPopup;
+    tray.addListener('click', (e) => {
+      if (mainPopup === undefined) mainPopup = createMainPopup(data, screen.getCursorScreenPoint());
+      else {
+        mainPopup.close();
+        mainPopup = undefined;
+      }
+
+    })
+    ipcMain.on('getGraph', (_event, graphData) => {
       const image = nativeImage.createFromDataURL(graphData);
       tray.setImage( image );
     });
@@ -26,7 +36,7 @@ const createGraphTray = (data) => {
     }
     ]);
     tray.setToolTip('This is my application.')
-    tray.setContextMenu(contextMenu);
+    // tray.setContextMenu(contextMenu);
     setInterval(() => {
       if ("package temperature" in data) {
         tray.setTitle(`${data["package temperature"].split(".")[0]}°`);
