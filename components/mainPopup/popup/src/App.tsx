@@ -88,7 +88,7 @@ function App() {
   },[])
   useEffect(() => {
       window.api?.sendWindowHeight(document.body.offsetHeight + 30);
-  },[data])
+  },[data, showTemp, showFreq, showUtilization])
 
 
 
