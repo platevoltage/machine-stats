@@ -69,9 +69,7 @@ function App() {
     });    
   },[])
   useEffect(() => {
-      // console.log(data);
-
-      window.api?.sendWindowHeight(document.body.offsetHeight);
+      window.api?.sendWindowHeight(document.body.offsetHeight + 30);
   },[data])
 
 
