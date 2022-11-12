@@ -1,5 +1,5 @@
 
-import './Item.css';
+
 interface Props {
   title: string | undefined;
   data: any;
