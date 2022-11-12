@@ -56,6 +56,25 @@ const alias = {
   'DRAM power': "DRAM Power",
   'IA utilization': "Utilization",
 }
+const suffix = {
+  // 'Num Packages': "string",
+  // 'Using Package': "string",
+  // 'Num Cores': "string",
+  // 'GT Available': "string",
+  // 'IA Energy Available': "string",
+  // 'DRAM Energy Available': "string",
+  // 'Max Temperature': "string",
+  'IA Base Frequency': " mhz",
+  'IA Max Frequency': " mhz",
+  // TDP: "string",
+  'package temperature': "°C",
+  'IA temperature': "°C",
+  'IA frequency': " mhz",
+  'package power': "W",
+  'IA power': "W",
+  'DRAM power': "W",
+  'IA utilization': "%",
+}
 
 
 
@@ -80,24 +99,24 @@ function App() {
       {/* <Item title={alias["package temperature"]} data={data["package temperature"]}/> */}
       {Object.keys(data).map((key, index) => {
         return (
-          key in alias && <Item title={alias[key as keyof typeof alias]} data={data[key as keyof typeof data]} key={index}/>
+          key in alias && <Item title={alias[key as keyof typeof alias]} data={data[key as keyof typeof data]} isInt={true} suffix={suffix[key as keyof typeof suffix]} key={index}/>
         )
       })
       }
       <br />
       {data?.PerCore?.map( (item, index) => 
-        <Item title={`core ${index} frequency`} data={item?.frequency} key={index}/>
+        <Item title={`core ${index} frequency`} data={item?.frequency} suffix={" mhz"} key={index}/>
         // <p>{item?.frequency}</p>
       )}
 
       <br />
       {data?.PerCore?.map( (item, index) => 
-        <Item title={`core ${index} temperature`} data={item?.temperature} key={index}/>
+        <Item title={`core ${index} temperature`} data={item?.temperature} suffix={"°C"} key={index}/>
         // <p>{item?.frequency}</p>
       )}  
       <br />
       {data?.PerCore?.map( (item, index) => 
-        <Item title={`core ${index} utilization`} data={item?.utilization} key={index}/>
+        <Item title={`core ${index} utilization`} data={item?.utilization} isInt={true} suffix={"%"} key={index}/>
         // <p>{item?.frequency}</p>
       )}  
 
