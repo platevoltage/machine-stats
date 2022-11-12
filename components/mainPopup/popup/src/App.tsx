@@ -76,11 +76,11 @@ const suffix = {
 
 
 function App() {
-  const [color, setColor] = useState("#ffffff")
+  const [color, setColor] = useState("#00ff00")
   const [data, setData] = useState<Data>({});
-  const [showFreq, setShowFreq] = useState(true);
-  const [showTemp, setShowTemp] = useState(true);
-  const [showUtilization, setShowUtilization] = useState(true);
+  const [showFreq, setShowFreq] = useState(false);
+  const [showTemp, setShowTemp] = useState(false);
+  const [showUtilization, setShowUtilization] = useState(false);
 
   useEffect(() => {
     window.api?.getData((event: any, {data, color}:{data: Data, color: string}) => {

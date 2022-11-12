@@ -29,14 +29,7 @@ const createGraphTray = (data) => {
       const image = nativeImage.createFromDataURL(graphData);
       tray.setImage( image );
     });
-    const contextMenu = Menu.buildFromTemplate([
-    { 
-        // label: "open", click: () => {}
-        label: "open", click: () => createMainPopup(data, screen.getCursorScreenPoint())
-    }
-    ]);
-    tray.setToolTip('This is my application.')
-    // tray.setContextMenu(contextMenu);
+
     setInterval(() => {
       if ("package temperature" in data) {
         tray.setTitle(`${data["package temperature"]}°`);

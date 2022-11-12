@@ -1,4 +1,4 @@
-const { BrowserWindow, ipcMain, systemPreferences } = require('electron');
+const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron');
 
 const path = require('path');
 let accentColor = `#${systemPreferences.getAccentColor()}`;
@@ -27,6 +27,7 @@ const createMainPopup = (data, {x}) => {
     win.loadFile(path.join(__dirname, 'popup/build/index.html')) 
 
     win.once('ready-to-show', () => {
+      app.dock.show();
       win.webContents.send('sendData', { data, color: accentColor });
       ipcMain.on('getWindowHeight', (e, height) => {
         win.setSize(250, height+30);
@@ -38,6 +39,7 @@ const createMainPopup = (data, {x}) => {
       clearInterval(interval);
       ipcMain.removeAllListeners('sendData');
       ipcMain.removeAllListeners('getWindowHeight');
+      app.dock.hide();
       win.destroy()
     });
 

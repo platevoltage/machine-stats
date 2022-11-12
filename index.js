@@ -9,6 +9,7 @@ let data = {};
 
 
 app.whenReady().then(async () => {
+  app.dock.hide();
   data = await getSample();
   setInterval( async () => {
     data = await getSample();
