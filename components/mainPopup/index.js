@@ -1,7 +1,7 @@
-const { BrowserWindow, ipcMain } = require('electron');
+const { BrowserWindow, ipcMain, systemPreferences } = require('electron');
 
 const path = require('path');
-
+let accentColor = `#${systemPreferences.getAccentColor()}`;
 const createMainPopup = (data, {x}) => {
     const win = new BrowserWindow({
       width: 250,
@@ -20,14 +20,14 @@ const createMainPopup = (data, {x}) => {
     });
     
     const interval = setInterval(() => {
-      win.webContents.send('sendData', data);
+      win.webContents.send('sendData', { data, color: accentColor });
     }, 1000);
     win.loadURL('http://localhost:3000/index.html');
 
     // win.loadFile('./popup/build/index.html') 
 
     win.once('ready-to-show', () => {
-      win.webContents.send('sendData', data);
+      win.webContents.send('sendData', { data, color: accentColor });
       ipcMain.on('getWindowHeight', (e, height) => {
         win.setSize(250, height+30);
       });
