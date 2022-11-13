@@ -25,6 +25,6 @@ p {
   background: none;
 }
 
-.carat:focus {
-  border: none;
+.caret:focus {
+  outline: none;
 }
