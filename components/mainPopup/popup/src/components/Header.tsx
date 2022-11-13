@@ -7,7 +7,9 @@ interface Props {
 export default function Header({color}:Props) {
   return (
     <div className="header">
-      <i className="bi bi-window" style={{color: color, position: "absolute", right: "10px", top: "6px"}}></i>
+        <button onClick={() => window.api?.setDetached()} className="glyph-button bi bi-x-square" style={{color: color, position: "absolute", left: "10px", top: "10px"}}></button>
+        <button onClick={() => window.api?.setDetached()} className="glyph-button bi bi-window" style={{color: color, position: "absolute", right: "10px", top: "10px"}}></button>
+      
     </div>
   )
 }

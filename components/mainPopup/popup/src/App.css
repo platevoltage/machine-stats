@@ -26,12 +26,12 @@ p {
   color: #aaaaaa;
 }
 
-.caret {
+.glyph-button {
   border: none;
   background: none;
 }
 
-.caret:focus {
+.glyph-button:focus {
   outline: none;
 }
 

@@ -87,7 +87,6 @@ function App() {
     window.api?.getData((event: any, {data, color}:{data: Data, color: string}) => {
       setData(data);
       setColor(color);
-      console.log(data);
     });    
   },[])
   useEffect(() => {
@@ -114,21 +113,21 @@ function App() {
         })
       }
       <p>
-        <button style={{color: `${color}`}} className="caret" onClick={() => setShowFreq(!showFreq)}>
+        <button style={{color: `${color}`}} className="glyph-button" onClick={() => setShowFreq(!showFreq)}>
           <i className={`bi bi-caret-${showFreq ? "down" : "right"}-fill`}></i>
           {!showFreq && <> Per Core Frequency</>}
         </button>
         {showFreq && <PerCore data={data.PerCore} property={"frequency"} title={`freq`} suffix={" mhz"} />}
       </p>
       <p>
-        <button style={{color: `${color}`}} className="caret" onClick={() => setShowTemp(!showTemp)}>
+        <button style={{color: `${color}`}} className="glyph-button" onClick={() => setShowTemp(!showTemp)}>
           <i className={`bi bi-caret-${showTemp ? "down" : "right"}-fill`}></i>
           {!showTemp && <> Per Core Temperature</>}
         </button>
         {showTemp && <PerCore data={data.PerCore} property={"temperature"} title={`temp`} suffix={"°C"} />}
       </p>
       <p>
-        <button style={{color: `${color}`}} className="caret" onClick={() => setShowUtilization(!showUtilization)}>
+        <button style={{color: `${color}`}} className="glyph-button" onClick={() => setShowUtilization(!showUtilization)}>
           <i className={`bi bi-caret-${showUtilization ? "down" : "right"}-fill`}></i>
           {!showUtilization && <> Per Core Utilization</>}
         </button>

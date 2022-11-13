@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron');
 
 const path = require('path');
 let accentColor = `#${systemPreferences.getAccentColor()}`;
+let detached = false;
 const createMainPopup = (data) => {
     const win = new BrowserWindow({
       width: 250,
@@ -32,20 +33,26 @@ const createMainPopup = (data) => {
     win.once('ready-to-show', () => {
       app.dock.show();
       win.webContents.send('sendData', { data, color: accentColor });
-      ipcMain.on('getWindowHeight', (e, height) => {
+      ipcMain.on('getWindowHeight', (_e, height) => {
         win.setSize(250, height+30);
       });
+      ipcMain.on('setDetached', () => {
+        win.setMovable(true);
+        detached = true;
+        
+      })
       win.show();
     })
 
     win.on('blur', () => {
-      win.close();
+      if (!detached) win.close();
     })
 
     win.on('closed', () => {
       clearInterval(interval);
       ipcMain.removeAllListeners('sendData');
       ipcMain.removeAllListeners('getWindowHeight');
+      ipcMain.removeAllListeners('setDetached');
       app.dock.hide();
       win.destroy()
     });
