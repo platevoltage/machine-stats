@@ -38,8 +38,12 @@ const createMainPopup = (data) => {
       });
       ipcMain.on('setDetached', () => {
         win.setMovable(true);
+        win.setPosition(win.getBounds().x, 40);
         detached = true;
         
+      });
+      ipcMain.on('closeWindow', () => {
+        win.close();
       })
       win.show();
     })

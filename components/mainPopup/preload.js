@@ -6,7 +6,8 @@ const { contextBridge, ipcRenderer } = require('electron');
     'api', {
         getData: data => ipcRenderer.on('sendData',data),
         sendWindowHeight: windowHeight => ipcRenderer.send('getWindowHeight', windowHeight),
-        setDetached: () => ipcRenderer.send('setDetached')
+        setDetached: () => ipcRenderer.send('setDetached'),
+        closeWindow: () => ipcRenderer.send('closeWindow')
     });
 
 
