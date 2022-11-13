@@ -19,7 +19,8 @@ const createGraphTray = (data) => {
     let mainPopup;
     tray.addListener('click', (e) => {
       if (mainPopup?.isDestroyed() || mainPopup === undefined) {
-        mainPopup = createMainPopup(data, screen.getCursorScreenPoint());
+        mainPopup = createMainPopup(data);
+        mainPopup.setPosition(Math.ceil(tray.getBounds().x + tray.getBounds().width/2 - mainPopup.getBounds().width/2), 0);
       }
       else {
         mainPopup.close();

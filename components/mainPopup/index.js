@@ -2,15 +2,14 @@ const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron');
 
 const path = require('path');
 let accentColor = `#${systemPreferences.getAccentColor()}`;
-const createMainPopup = (data, {x}) => {
+const createMainPopup = (data) => {
     const win = new BrowserWindow({
       width: 250,
+      height: 0,
       vibrancy: 'dark',
       useContentSize: true,
       frame: false,
       show: false,
-      x: x - 125,
-      y: 0,
       titleBarStyle: 'hidden',
       webPreferences: {
         nodeIntegration: false,
