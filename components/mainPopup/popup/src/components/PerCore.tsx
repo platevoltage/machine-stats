@@ -20,7 +20,7 @@ export function PerCore({ property, data, title, suffix }:Props) {
     <div>
         
         { data?.map( (item, index) => {
-          return <Item title={`core ${index} ${title}`} data={item[property]} suffix={suffix} key={index}/>
+          return <Item title={`Core ${index} ${title}`} data={item[property]} suffix={suffix} key={index}/>
         }
  
       )}
