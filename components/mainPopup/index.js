@@ -8,7 +8,7 @@ const createMainPopup = (data) => {
       width: 250,
       height: 0,
       visualEffectState: "active",
-      vibrancy: 'dark',
+      vibrancy: 'sidebar',
       resizable: false,
       maximizable: false,
       movable: false,
@@ -39,7 +39,6 @@ const createMainPopup = (data) => {
       ipcMain.on('setDetached', () => {
         win.setMovable(true);
         win.setPosition(win.getBounds().x, 40);
-        detached = true;
         
       });
       ipcMain.on('closeWindow', () => {
@@ -49,7 +48,7 @@ const createMainPopup = (data) => {
     })
 
     win.on('blur', () => {
-      if (!detached) win.close();
+      if (!win.isMovable()) win.close();
     })
 
     win.on('closed', () => {
@@ -57,6 +56,7 @@ const createMainPopup = (data) => {
       ipcMain.removeAllListeners('sendData');
       ipcMain.removeAllListeners('getWindowHeight');
       ipcMain.removeAllListeners('setDetached');
+      ipcMain.removeAllListeners('closeWindow');
       app.dock.hide();
       win.destroy()
     });

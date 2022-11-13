@@ -17,19 +17,22 @@ const createGraphTray = (data) => {
     const tray = new Tray(nativeImage.createEmpty());
 
     let mainPopup;
+    const menu = Menu.buildFromTemplate([
+      {label: 'Quit', role: 'quit' }
+    ]);
+
     tray.addListener('click', (e) => {
       if (mainPopup?.isDestroyed() || mainPopup === undefined) {
         mainPopup = createMainPopup(data);
         mainPopup.setPosition(Math.ceil(tray.getBounds().x + tray.getBounds().width/2 - mainPopup.getBounds().width/2), 0);
       }
+      else if (mainPopup.isMovable()) {
+        tray.popUpContextMenu(menu);
+      }
       else {
         mainPopup.close();
       }
     })
-
-    const menu = Menu.buildFromTemplate([
-      {label: 'Quit', role: 'quit' }
-    ]);
 
     tray.addListener('right-click', (e) => {
       tray.popUpContextMenu(menu);
