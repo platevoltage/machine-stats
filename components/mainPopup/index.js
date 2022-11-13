@@ -6,11 +6,14 @@ const createMainPopup = (data) => {
     const win = new BrowserWindow({
       width: 250,
       height: 0,
+      visualEffectState: "active",
       vibrancy: 'dark',
+      resizable: false,
+      maximizable: false,
+      // titleBarStyle: "hidden",
       useContentSize: true,
       frame: false,
       show: false,
-      titleBarStyle: 'hidden',
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
@@ -32,6 +35,10 @@ const createMainPopup = (data) => {
         win.setSize(250, height+30);
       });
       win.show();
+    })
+
+    win.on('blur', () => {
+      win.close();
     })
 
     win.on('closed', () => {
