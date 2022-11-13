@@ -10,6 +10,7 @@ const createMainPopup = (data) => {
       vibrancy: 'dark',
       resizable: false,
       maximizable: false,
+      movable: false,
       // titleBarStyle: "hidden",
       useContentSize: true,
       frame: false,
@@ -24,9 +25,9 @@ const createMainPopup = (data) => {
     const interval = setInterval(() => {
       win.webContents.send('sendData', { data, color: accentColor });
     }, 1000);
-    // win.loadURL('http://localhost:3000/index.html');
+    win.loadURL('http://localhost:3000/index.html');
 
-    win.loadFile(path.join(__dirname, 'popup/build/index.html')) 
+    // win.loadFile(path.join(__dirname, 'popup/build/index.html')) 
 
     win.once('ready-to-show', () => {
       app.dock.show();

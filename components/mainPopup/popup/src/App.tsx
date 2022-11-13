@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Item from './components/Item';
+import Header from './components/Header';
 
 import './App.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -90,14 +91,14 @@ function App() {
     });    
   },[])
   useEffect(() => {
-      window.api?.sendWindowHeight(document.body.offsetHeight + 30);
+      window.api?.sendWindowHeight(document.body.offsetHeight);
   },[data, showTemp, showFreq, showUtilization])
 
 
 
   return (
     <div>
-      
+      <Header color={color}/>
       {/* <Item title={alias["package temperature"]} data={data["package temperature"]}/> */}
       { Object.keys(data).map((key, index) => {
           return (
