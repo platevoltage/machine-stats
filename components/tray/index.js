@@ -25,6 +25,14 @@ const createGraphTray = (data) => {
         mainPopup.close();
       }
     })
+
+    const menu = Menu.buildFromTemplate([
+      {label: 'Quit', role: 'quit' }
+    ]);
+
+    tray.addListener('right-click', (e) => {
+      tray.popUpContextMenu(menu);
+    })
     ipcMain.on('getGraph', (_event, graphData) => {
       const image = nativeImage.createFromDataURL(graphData);
       tray.setImage( image );
