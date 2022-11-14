@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && cp -R src/public dist/ && npm run build:react && electron-forge start",
-    "start:dev": "tsc && cp -R src/public dist/ && electron dist",
+    "start:dev": "tsc && cp -R src/public dist/ && electron --inspect=5858 dist",
     "build:react": "cd src/react/popup && npm i && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",

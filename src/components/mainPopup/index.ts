@@ -47,18 +47,22 @@ const createMainPopup = (data: any) => {
       win.show();
     })
 
-    win.on('blur', () => {
-      if (!win.isMovable()) win.close();
-    })
+    win.once('show', () => {
 
+      win.on('blur', () => {
+        if (!win.isMovable()) win.close();
+      })
+    })
+    
+    
     win.on('closed', () => {
       clearInterval(interval);
       ipcMain.removeAllListeners('sendData');
       ipcMain.removeAllListeners('getWindowHeight');
       ipcMain.removeAllListeners('setDetached');
       ipcMain.removeAllListeners('closeWindow');
-      app.dock.hide();
       win.destroy()
+      app.dock.hide();
     });
 
     return win
