@@ -1,12 +1,14 @@
-import util = require('util');
-const exec = util.promisify(require('child_process').exec);
+import * as util from 'util';
+import * as child_process from 'child_process';
 
+const exec = util.promisify(child_process.exec);
 
 const parsedObject = {PerCore: new Array(20)};
 async function getSample() {
-    const { stdout, stderr } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 300 -duration 1 -verbose -file /dev/null`);
+    const { stdout } = await exec(`/Applications/"Intel Power Gadget"/PowerLog -resolution 300 -duration 1 -verbose -file /dev/null`);
+
     const text = stdout.split("--------------------------");
-    // console.log(stdout)
+
     for (let block of text) {
   
     

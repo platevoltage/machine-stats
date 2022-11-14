@@ -65,4 +65,4 @@ const createMainPopup = (data) => {
       
   };
 
-  module.exports = createMainPopup;
+  export default createMainPopup;
