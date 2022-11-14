@@ -28,7 +28,7 @@ const createMainPopup = (data) => {
     }, 1000);
     // win.loadURL('http://localhost:3000/index.html');
 
-    win.loadFile(path.join(__dirname, 'popup/build/index.html')) 
+    win.loadFile(path.join(__dirname, './popup/index.html')) 
 
     win.once('ready-to-show', () => {
       app.dock.show();

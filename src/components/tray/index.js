@@ -13,7 +13,7 @@ const createGraphTray = (data) => {
         preload: path.join(__dirname, 'preload.js')
       }
     })
-    graphCanvas.loadFile('components/tray/canvas/index.html');
+    graphCanvas.loadFile(path.join(__dirname, '../../public/canvas/index.html'));
     const tray = new Tray(nativeImage.createEmpty());
 
     let mainPopup;
