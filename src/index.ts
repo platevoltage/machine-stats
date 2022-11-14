@@ -1,8 +1,7 @@
-const { app } = require('electron');
-const isDev = require('electron-is-dev');
-const path = require('path');
-const getSample = require('./helpers/powerGadget');
-const createGraphTray = require('./components/tray');
+import { app } from 'electron';
+
+import getSample from './helpers/powerGadget';
+import createGraphTray from './components/tray';
 
 
 let data = {};

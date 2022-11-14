@@ -50,4 +50,4 @@ const createGraphTray = (data) => {
     }, 1000)
   };
 
-  module.exports = createGraphTray;
+  export default createGraphTray;

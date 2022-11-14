@@ -1,6 +1,6 @@
-const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron');
+import { app, BrowserWindow, ipcMain, systemPreferences } from 'electron';
 
-const path = require('path');
+import path = require('path');
 let accentColor = `#${systemPreferences.getAccentColor()}`;
 let detached = false;
 const createMainPopup = (data) => {
