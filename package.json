@@ -2,11 +2,11 @@
   "name": "my-electron-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "npm run build:react && electron .",
-    "start:dev": "electron .",
-    "build:react": "cd components/mainPopup/popup && npm i && npm run build",
+    "start": "tsc && cp -R src/public dist/ && npm run build:react && electron dist",
+    "start:dev": "tsc && cp -R src/public dist/ && electron dist",
+    "build:react": "cd src/react/popup && npm i && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf ../../../dist/components/mainPopup/popup && mv build ../../../dist/components/mainPopup/popup",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

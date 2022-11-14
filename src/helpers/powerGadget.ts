@@ -1,4 +1,4 @@
-const util = require('util');
+import util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 
@@ -39,4 +39,4 @@ async function getSample() {
     return parsedObject;
   }
 
-  module.exports =  getSample 
+export default getSample ;

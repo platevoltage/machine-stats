@@ -1,6 +1,6 @@
-const { app, BrowserWindow, ipcMain, systemPreferences } = require('electron');
+import { app, BrowserWindow, ipcMain, systemPreferences } from 'electron';
 
-const path = require('path');
+import path = require('path');
 let accentColor = `#${systemPreferences.getAccentColor()}`;
 let detached = false;
 const createMainPopup = (data) => {
@@ -28,7 +28,7 @@ const createMainPopup = (data) => {
     }, 1000);
     // win.loadURL('http://localhost:3000/index.html');
 
-    win.loadFile(path.join(__dirname, 'popup/build/index.html')) 
+    win.loadFile(path.join(__dirname, './popup/index.html')) 
 
     win.once('ready-to-show', () => {
       app.dock.show();
