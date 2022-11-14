@@ -3,7 +3,7 @@ import { app, BrowserWindow, ipcMain, systemPreferences } from 'electron';
 import path = require('path');
 let accentColor = `#${systemPreferences.getAccentColor()}`;
 let detached = false;
-const createMainPopup = (data) => {
+const createMainPopup = (data: any) => {
     const win = new BrowserWindow({
       width: 250,
       height: 0,

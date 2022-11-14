@@ -1,9 +1,9 @@
-import { screen, Tray, Menu, nativeImage, BrowserWindow, ipcMain, systemPreferences } from 'electron';
+import { Tray, Menu, nativeImage, BrowserWindow, ipcMain, systemPreferences } from 'electron';
 import * as path from 'path';
 import createMainPopup from '../mainPopup';
 
 let accentColor = `#${systemPreferences.getAccentColor()}`;
-const createGraphTray = (data) => {
+const createGraphTray = (data: any) => {
     const graphCanvas = new BrowserWindow({
       show: false,
       useContentSize: true,
