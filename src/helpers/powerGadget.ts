@@ -21,7 +21,7 @@ async function getSample() {
       for (let line of lines) {
         
         if(line.startsWith("core")) {
-          const array = line.split(/MHz |Celcius /g).map(x => x.replace(/(core \d+ )/, ""))
+          const array = line.split(/MHz |Celcius /g).map((x: string) => x.replace(/(core \d+ )/, ""))
           if (typeof parsedObject.PerCore[count] !== "object") parsedObject.PerCore[count] = {};
           const object = parsedObject.PerCore[count];
           count++;

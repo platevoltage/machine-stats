@@ -1,13 +1,15 @@
 // @ts-nocheck
 var canvas = document.getElementById('canvas');
 
-canvas.width = 100;
-canvas.height = 20;
-console.log(window)
-window.api.getData((event, { data, color }) => {
-    
-    window.api.sendGraph( drawGraph(data, color) );
-  });   
+if (canvas) {
+  canvas.width = 100;
+  canvas.height = 20;
+  console.log(window)
+  window.api.getData((event, { data, color }) => {
+      
+      window.api.sendGraph( drawGraph(data, color) );
+    });   
+}
 
 function drawGraph(data, color) {
     // console.log(data);
@@ -16,7 +18,7 @@ function drawGraph(data, color) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = color;
     for (let i in data.PerCore) {
-      ctx.fillRect(i*5, canvas.height, 4, -(+data.PerCore[i].utilization ?? 0)/4)
+      ctx.fillRect(+i*5, canvas.height, 4, -(+data.PerCore[+i].utilization ?? 0)/4)
     }
     
     return canvas.toDataURL('image/png', 1);

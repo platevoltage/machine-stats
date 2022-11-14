@@ -17,7 +17,7 @@ const createGraphTray = (data: any) => {
     graphCanvas.loadFile(path.join(__dirname, '../../public/canvas/index.html'));
     const tray = new Tray(nativeImage.createEmpty());
 
-    let mainPopup;
+    let mainPopup: BrowserWindow;
     const menu = Menu.buildFromTemplate([
       {label: 'Quit', role: 'quit' }
     ]);
